@@ -1,0 +1,59 @@
+project_dir: .
+data_dir: data
+flaskapi_dir: app
+
+outfiles:
+  meta: meta/meta_{}.json
+  model: model/model_{}.pickle
+  pred: pred/pred_{}.csv
+
+# Meta iris dataset
+target_col: species
+cat_cols: []
+num_cols:
+  - sepal_length
+  - sepal_width
+  - petal_length
+  - petal_width
+
+# Selection param (CV / test)
+scoring: accuracy
+
+param_fold:
+  nb_folds: 4
+  test_size: 0.2
+
+# fitting params
+param_transform:
+  params:
+    sparse: False
+    dtype: int
+    impute_cat:
+      missing_values: .NAN
+      strategy: constant
+      fill_value: -1
+    impute_num:
+      missing_values: .NAN
+      strategy: mean
+  feature_transform: impute
+  target_transform: encode
+
+param_transform_grid: {}
+
+model_param:
+  n_jobs: 4
+  min_samples_leaf: 100
+  max_depth: 5
+  n_estimators: 200
+
+model_param_grid:
+  min_samples_leaf:
+    - 2
+    - 10
+  max_depth:
+    - 3
+    - 7
+    - 10
+  n_estimators:
+    - 100
+    - 200
